@@ -1,0 +1,11 @@
+[Unit]
+Description=sprinterOS Solar Sequence LED Daemon
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/bin/exocore-led-sequence.py
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target

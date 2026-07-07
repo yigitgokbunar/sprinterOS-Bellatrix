@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<image schemaversion="7.5" name="sprinterOS-Bellatrix">
+    <description type="system">
+        <author>Yigit Gokbunar</author>
+        <contact>ygokbunar@gmail.com</contact>
+        <specification>Debian Bookworm Tabanlı sprinterOS Bellatrix - Debug Destekli</specification>
+    </description>
+    
+    <profiles>
+        <profile name="Classic" description="PowerEXO 50 Classic (ppc64le)"/>
+        <profile name="AX_RX" description="PowerEXO 50 AX/RX (RPI/arm64)"/>
+        <profile name="chkdebug" description="Gelisim ve Hata Ayiklama Varyanti (Sikistirma Yok)"/>
+        <profile name="RPI2" description="PowerEXO 2B (RPI 2B / armhf)"/>
+    </profiles>
+
+    <preferences>
+        <version>1.42.1</version>
+        <packagemanager>apt</packagemanager>
+        <locale>en_US</locale>
+        <keytable>us</keytable>
+        <timezone>Europe/Istanbul</timezone>
+        <rpm-recommends>false</rpm-recommends>
+    </preferences>
+
+    <preferences profiles="Classic">
+        <type image="oem" filesystem="ext4" firmware="ofw" kernelcmdline="console=ttyS0 quiet" format="raw">
+            <bootloader name="grub2" console="serial" timeout="1"/>
+            <oemconfig>
+                <oem-resize>true</oem-resize>
+            </oemconfig>
+        </type>
+    </preferences>
+
+    <preferences profiles="chkdebug">
+        <type image="oem" filesystem="ext4" kernelcmdline="console=ttyS0" format="raw" compression="none">
+            <bootloader name="grub2" console="serial" timeout="5"/>
+            <oemconfig>
+                <oem-resize>false</oem-resize> </oemconfig>
+        </type>
+    </preferences>
+
+    <preferences profiles="AX_RX">
+        <type image="oem" filesystem="ext4" firmware="efi" kernelcmdline="console=tty1 console=ttyS0,115200 rootwait quiet" format="raw">
+            <bootloader name="grub2" console="serial" timeout="1"/>
+        </type>
+    </preferences>
+  
+    <preferences profiles="RPI2">
+        <type image="oem" filesystem="ext4" firmware="efi" kernelcmdline="console=tty1 console=ttyS0,115200 rootwait quiet" format="raw">
+            <bootloader name="grub2" console="serial" timeout="1"/>
+        </type>
+    </preferences>
+
+    <users>
+        <user password="$1$wYJUgpM5$RXMMeASDc035eX.NbYWFl0" home="/root" name="root" groups="root"/>
+    </users>
+
+    <repository type="apt-deb" distribution="bookworm" components="main" repository_gpgcheck="false">
+        <source path="obs://Debian:12/standard"/>
+    </repository>
+
+    <packages type="image">
+        <package name="init"/>
+        <package name="systemd"/>
+        <package name="iproute2"/>
+        <package name="isc-dhcp-client"/>
+        <package name="nano"/>
+        <package name="icewm"/>
+        <package name="xorg-x11-server-utils"/>
+        <package name="xinit"/>
+        <package name="netsurf-common"/>
+        <package name="netsurf-gtk"/>
+        <package name="zram-tools"/>
+        <package name="busybox"/>
+        <package name="alsa-utils"/>
+        <package name="python3"/>
+        <package name="python3-rpi.gpio"/> <!-- RPI GPIO kontrolü için -->
+        <package name="sudo"/>             <!-- exo kullanıcısı için -->
+        <package name="bash-completion"/>  <!-- Terminal konforu -->
+        <package name="wpasupplicant"/>    <!-- Wi-Fi desteği (RPI için) -->
+        <package name="sudo"/>
+        <package name="bsdgames"/>
+        <package name="xboard"/>
+        <package name="gnuchess"/>
+        <package name="moon-buggy"/>
+        <package name="abiword"/>
+        <package name="gnumeric"/>
+        <package name="badwolf"/>
+    </packages>
+
+    <packages type="image" profiles="chkdebug">
+        <package name="strace"/>
+        <package name="gdb"/>
+        <package name="htop"/>
+        <package name="less"/>
+    </packages>
+
+    <packages type="image" profiles="Classic">
+        <package name="linux-image-powerpc64le"/>
+        <package name="grub-ieee1275-bin"/>
+    </packages>
+
+    <packages type="image" profiles="AX_RX">
+        <package name="linux-image-arm64"/>
+        <package name="grub-efi-arm64-bin"/>
+        <package name="raspberrypi-bootloader"/>
+        <package name="raspberrypi-kernel"/>
+    </packages>
+  
+    <packages type="image" profiles="RPI2">
+        <!-- RPI 2B (v1.1) armhf mimarisi için çekirdek -->
+        <package name="linux-image-armmp"/> 
+        <package name="grub-efi-arm-bin"/>
+        <package name="raspberrypi-bootloader"/>
+        <package name="raspberrypi-kernel"/>
+        <!-- Donanım ivmelendirme ve firmware -->
+        <package name="firmware-brcm80211"/> 
+        <package name="raspi-firmware"/>
+    </packages>
+
+    <packages type="bootstrap">
+        <package name="ca-certificates"/>
+        <package name="base-files"/>
+    </packages>
+</image>
