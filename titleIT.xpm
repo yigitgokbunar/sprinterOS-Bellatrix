@@ -1,0 +1,12 @@
+NAME="sprinterOS"
+VERSION="Bellatrix"
+ID=sprinteros
+ID_LIKE=debian
+VERSION_ID="1.0.0"
+VERSION_CODENAME=bookworm
+PRETTY_NAME="sprinterOS Bellatrix"
+VENDOR_NAME="exo computing"
+ANSI_COLOR="0;35"
+HOME_URL="https://github.com/ygokbunar/sprinterOS"
+SUPPORT_URL="mailto:ygokbunar@gmail.com"
+LOGO=/usr/sprinteros-logo.png

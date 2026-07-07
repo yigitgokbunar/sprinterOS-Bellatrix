@@ -1,0 +1,12 @@
+[Unit]
+Description=sprinterOS Boot Chime
+After=alsa-restore.service sound.target
+Before=display-manager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/aplay /usr/share/sounds/sprinterOS/proboot.wav
+StandardOutput=null
+
+[Unit]
+WantedBy=multi-user.target
